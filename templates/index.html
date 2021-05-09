@@ -5,15 +5,7 @@
         <h1>Вопросы</h1>
         <div class="accordion accordion-flush" id="questions">
         {% for item in questions %}
-            {% if item.id in points %}
-                {% if points[item.id] %}
-                    <div class="accordion-item alert alert-success">
-                {% else %}
-                    <div class="accordion-item alert alert-danger">
-                {% endif %}
-            {% else %}
-                <div class="accordion-item alert alert-primary">
-            {% endif %}
+            <div class="accordion-item">
                 <h2 class="accordion-header" id="question{{ item.id }}">
                     <button class="accordion-button collapsed" type="button"
                             data-bs-toggle="collapse" data-bs-target="#collapse{{ item.id }}"
@@ -23,7 +15,15 @@
                 </h2>
                 <div id="collapse{{ item.id }}" class="accordion-collapse collapse"
                      aria-labelledby="heading{{ item.id }}" data-bs-parent="#questions">
-                    <div class="accordion-body">
+                    {% if item.id in points %}
+                        {% if points[item.id] %}
+                            <div class="accordion-body alert alert-success">
+                        {% else %}
+                            <div class="accordion-body alert alert-danger">
+                        {% endif %}
+                    {% else %}
+                        <div class="accordion-body alert alert-primary">
+                    {% endif %}
                         <div>
                             <img alt="{{ item.title }}"
                                  class="rounded mx-auto d-block"
