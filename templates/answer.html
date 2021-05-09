@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Ответ</h1>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <h2>{{ question.title }}</h2>
+    <div>
+        <img alt="{{ question.title }}"
+             class="rounded mx-auto d-block"
+             src="/static/img/questions/{{ question.id }}.png">
+    </div>
+    {% if question.content %}
+        <div>
+            {% for line in question.content.split('\n') %}
+                <br>{{ line }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <p>
+        {{ form.answer.label }}<br>
+        {{ form.answer(class="form-control") }}<br>
+        {% for error in form.answer.errors %}
+            <p content="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    {{ message }}
+</form>
+{% endblock %}

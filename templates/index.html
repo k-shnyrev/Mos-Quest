@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if current_user.is_authenticated %}
+        <h1>Вопросы</h1>
+        <div class="accordion accordion-flush" id="questions">
+        {% for item in questions %}
+            {% if item.id in points %}
+                {% if points[item.id] %}
+                    <div class="accordion-item alert alert-success">
+                {% else %}
+                    <div class="accordion-item alert alert-danger">
+                {% endif %}
+            {% else %}
+                <div class="accordion-item alert alert-primary">
+            {% endif %}
+                <h2 class="accordion-header" id="question{{ item.id }}">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapse{{ item.id }}"
+                            aria-expanded="false" aria-controls="collapse{{ item.id }}">
+                        {{ item.title }}
+                    </button>
+                </h2>
+                <div id="collapse{{ item.id }}" class="accordion-collapse collapse"
+                     aria-labelledby="heading{{ item.id }}" data-bs-parent="#questions">
+                    <div class="accordion-body">
+                        <div>
+                            <img alt="{{ item.title }}"
+                                 class="rounded mx-auto d-block"
+                                 src="/static/img/questions/{{ item.id }}.png">
+                        </div>
+                        {% if item.content %}
+                            <div>
+                                {% for line in item.content.split('\n') %}
+                                    <br>{{ line }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% if item.id in answers %}
+                            <div>
+                                Ваш ответ: {{ answers[item.id] }}
+                            </div>
+                            <div>
+                                Количество ошибок: {{ tryings[item.id] }}
+                            </div>
+                            <div>
+                                Ваши баллы: {{ points[item.id] }}
+                            </div>
+                        {% endif %}
+                        {% if points.get(item.id, 0) == 0 %}
+                            <div>
+                                <a href="/answer/{{ item.id }}" class="btn btn-warning">
+                                    Ответить
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <h1>Рейтинг</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Баллы</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pos, user, score in rating %}
+                <tr>
+                    <th scope="row">{{ pos }}</th>
+                    <td>{{ user }}</td>
+                    <td>{{ score }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
