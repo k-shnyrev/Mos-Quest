@@ -2,28 +2,52 @@
 
 {% block content %}
     {% if current_user.is_authenticated %}
+        <h1>Правила</h1>
+            <p>
+                Максимум за каждый вопрос — 10 баллов.
+                <br>Каждая ошибка уменьшает количество баллов на 1.
+                <br>Несгораемый остаток за каждый вопрос — 1 балл.
+            </p>
         <h1>Вопросы</h1>
         <div class="accordion accordion-flush" id="questions">
         {% for item in questions %}
             <div class="accordion-item">
-                <h2 class="accordion-header" id="question{{ item.id }}">
-                    <button class="accordion-button collapsed" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#collapse{{ item.id }}"
-                            aria-expanded="false" aria-controls="collapse{{ item.id }}">
-                        {{ item.title }}
-                    </button>
-                </h2>
-                <div id="collapse{{ item.id }}" class="accordion-collapse collapse"
-                     aria-labelledby="heading{{ item.id }}" data-bs-parent="#questions">
-                    {% if item.id in points %}
-                        {% if points[item.id] %}
-                            <div class="accordion-body alert alert-success">
-                        {% else %}
-                            <div class="accordion-body alert alert-danger">
-                        {% endif %}
+                {% if item.id in points %}
+                    {% if points[item.id] %}
+                        <h2 class="accordion-header" id="question{{ item.id }}">
+                            <button class="accordion-button collapsed alert-success" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapse{{ item.id }}"
+                                    aria-expanded="false" aria-controls="collapse{{ item.id }}">
+                                {{ item.title }}
+                            </button>
+                        </h2>
+                        <div id="collapse{{ item.id }}" class="accordion-collapse collapse"
+                             aria-labelledby="heading{{ item.id }}">
+                        <div class="accordion-body alert alert-success">
                     {% else %}
-                        <div class="accordion-body alert alert-primary">
+                        <h2 class="accordion-header" id="question{{ item.id }}">
+                            <button class="accordion-button collapsed alert-danger" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapse{{ item.id }}"
+                                    aria-expanded="false" aria-controls="collapse{{ item.id }}">
+                                {{ item.title }}
+                            </button>
+                        </h2>
+                        <div id="collapse{{ item.id }}" class="accordion-collapse collapse"
+                             aria-labelledby="heading{{ item.id }}">
+                        <div class="accordion-body alert alert-danger">
                     {% endif %}
+                {% else %}
+                    <h2 class="accordion-header" id="question{{ item.id }}">
+                        <button class="accordion-button collapsed alert-primary" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapse{{ item.id }}"
+                                aria-expanded="false" aria-controls="collapse{{ item.id }}">
+                            {{ item.title }}
+                        </button>
+                    </h2>
+                    <div id="collapse{{ item.id }}" class="accordion-collapse collapse alert-primary"
+                         aria-labelledby="heading{{ item.id }}">
+                    <div class="accordion-body alert alert-primary">
+                {% endif %}
                         <div>
                             <img alt="{{ item.title }}"
                                  class="rounded mx-auto d-block"
@@ -58,6 +82,9 @@
                 </div>
             </div>
         {% endfor %}
+    </div>
+    {% else %}
+        <p class="lead text-center"><a href="/register">Зарегистрируйтесь</a> и <a href="/login">войдите</a>, чтобы увидеть вопросы</p>
     {% endif %}
     <h1>Рейтинг</h1>
     <table class="table">

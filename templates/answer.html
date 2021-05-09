@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Ответ</h1>
+<h1>{{ title }}</h1>
 <form action="" method="post">
     {{ form.hidden_tag() }}
     <h2>{{ question.title }}</h2>
@@ -19,7 +19,7 @@
     {% endif %}
     <p>
         {{ form.answer.label }}<br>
-        {{ form.answer(class="form-control") }}<br>
+        {{ form.answer(class="form-control", autocomplete="off") }}<br>
         {% for error in form.answer.errors %}
             <p content="alert alert-danger" role="alert">
                 {{ error }}
