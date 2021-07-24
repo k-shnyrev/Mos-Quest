@@ -3,9 +3,9 @@ import sys
 import requests
 
 geocoder_api_server = 'https://geocode-maps.yandex.ru/1.x/'
-geocoder_api_key = '40d1649f-0493-4b70-98ba-98533de7710b'
+geocoder_api_key = '...'  # получите ключ для Геокодера API Яндекс.Карт - https://yandex.ru/dev/maps/geocoder/
 search_api_server = 'https://search-maps.yandex.ru/v1/'
-search_api_key = 'dda3ddba-c9ea-4ead-9010-f43fbc15c6e3'
+search_api_key = '...'  # получите ключ для API Поиска по организациям Яндекс.Карт - https://yandex.ru/dev/maps/geosearch/
 map_api_server = 'https://static-maps.yandex.ru/1.x/'
 
 
